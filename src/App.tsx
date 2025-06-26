@@ -1,17 +1,18 @@
-import { Button } from "@mui/material"
-import Typography from "@mui/material/Typography"
+import { CssBaseline, ThemeProvider } from '@mui/material';
+import { useThemeContext } from './theme/ThemeContext';
+import { lightTheme, darkTheme } from './theme/Theme';
+import ThemeToggle from './theme/ThemeToggle';
 
 function App() {
+  const { currentTheme } = useThemeContext();
+  const appliedTheme = currentTheme === 'dark' ? darkTheme : lightTheme;
 
   return (
-    <>
-      <div>pháp</div>
-      <Typography variant="body2" color="text.secondary">test Typography</Typography>
-      <Button variant="text">Text</Button>
-      <Button variant="contained">Contained</Button>
-      <Button variant="outlined">Outlined</Button>
-    </>
-  )
+    <ThemeProvider theme={appliedTheme}>
+      <CssBaseline />
+      <ThemeToggle />
+    </ThemeProvider>
+  );
 }
 
-export default App
+export default App;
