@@ -1,17 +1,13 @@
-import { Button } from "@mui/material"
-import Typography from "@mui/material/Typography"
+import { Container } from "@mui/material";
+import Board from "./pages/Boards/_id";
 
 function App() {
 
   return (
-    <>
-      <div>pháp</div>
-      <Typography variant="body2" color="text.secondary">test Typography</Typography>
-      <Button variant="text">Text</Button>
-      <Button variant="contained">Contained</Button>
-      <Button variant="outlined">Outlined</Button>
-    </>
-  )
+    <Container disableGutters maxWidth={false} sx={{ height: '100vh' }}>
+      <Board />
+    </Container>
+  );
 }
 
-export default App
+export default App;
