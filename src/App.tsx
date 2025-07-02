@@ -1,12 +1,12 @@
-import ThemeToggle from './context/theme/ThemeToggle';
-
+import { Container } from "@mui/material";
+import Board from "./pages/Boards/_id";
 
 function App() {
+
   return (
-    <>
-      <ThemeToggle />
-      {/* Các component khác */}
-    </>
+    <Container disableGutters maxWidth={false} sx={{ height: '100vh' }}>
+      <Board />
+    </Container>
   );
 }
 

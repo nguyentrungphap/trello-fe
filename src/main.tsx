@@ -1,32 +1,19 @@
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
-import { StyledEngineProvider, ThemeProvider, CssBaseline } from '@mui/material';
-import { ThemeProviderCustom, useThemeContext } from './context/theme/ThemeContext.tsx';
-import { lightTheme, darkTheme } from './context/theme/Theme';
-import {
-  RouterProvider,
-} from "react-router";
-import router from './routes/index.tsx';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
 
-function ThemeWrapper({ children }: { children: React.ReactNode }) {
-  const { currentTheme } = useThemeContext();
-  const appliedTheme = currentTheme === 'dark' ? darkTheme : lightTheme;
-  return (
-    <ThemeProvider theme={appliedTheme}>
-      <CssBaseline />
-      {children}
-    </ThemeProvider>
-  );
+import { ThemeProvider, CssBaseline } from '@mui/material';
+import theme from './context/theme/Theme';
+
+const rootElement = document.getElementById('root');
+if (!rootElement) {
+  throw new Error("Root element with id 'root' not found");
 }
-
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <StyledEngineProvider injectFirst>
-      <ThemeProviderCustom>
-        <ThemeWrapper>
-          <RouterProvider router={router} />
-        </ThemeWrapper>
-      </ThemeProviderCustom>
-    </StyledEngineProvider>
-  </StrictMode>
+ReactDOM.createRoot(rootElement).render(
+  <React.StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <App />
+    </ThemeProvider>
+  </React.StrictMode>
 );
