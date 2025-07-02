@@ -1,5 +1,5 @@
 import { Box } from '@mui/material'
-import theme from '../../../context/theme/Theme'
+import theme from '@/context/theme'
 
 function BoardBar() {
   return (

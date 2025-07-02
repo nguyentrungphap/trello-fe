@@ -1,5 +1,4 @@
-import React from 'react'
-import AppBar from '../../components/AppBar'
+import AppBar from '@/components/AppBar'
 import BoardContent from './BoardContent'
 import BoardBar from './BoardBar'
 
