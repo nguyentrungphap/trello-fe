@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 
 import { ThemeProvider, CssBaseline } from '@mui/material';
-import theme from './context/theme/Theme';
+import theme from './context/theme';
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
