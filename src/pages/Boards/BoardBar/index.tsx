@@ -1,4 +1,12 @@
-import { Avatar, AvatarGroup, Box, Button, Chip, Tooltip } from "@mui/material";
+import {
+  Avatar,
+  AvatarGroup,
+  Box,
+  Button,
+  Chip,
+  Tooltip,
+  useColorScheme,
+} from "@mui/material";
 import theme from "@/context/theme";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import VpnLockIcon from "@mui/icons-material/VpnLock";
@@ -8,13 +16,13 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 
 const MENU_STYLE = {
-  color: "primary.main",
-  backgroundColor: "white",
+  color: "white",
+  backgroundColor: "transparent",
   border: "none",
   px: "5px",
   borderRadius: "4px",
   "& .MuiSvgIcon-root": {
-    color: "primary.main",
+    color: "white",
   },
   "&:hover": {
     bgcolor: "primary.50",
@@ -22,6 +30,8 @@ const MENU_STYLE = {
 };
 
 function BoardBar() {
+  const { mode } = useColorScheme();
+
   return (
     <Box
       sx={{
@@ -32,8 +42,9 @@ function BoardBar() {
         justifyContent: "space-between",
         gap: 2,
         overflow: "auto",
-        borderTop: "1px solid #00bfa5",
+        borderBottom: "1px solid white",
         paddingX: 2,
+        bgcolor: () => (mode === "dark" ? "#34495e" : "#1976d2"),
       }}
     >
       <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
@@ -69,19 +80,29 @@ function BoardBar() {
         />
       </Box>
       <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-        <Button variant="outlined" startIcon={<PersonAddIcon />}>
+        <Button
+          variant="outlined"
+          startIcon={<PersonAddIcon />}
+          sx={{
+            color: "white",
+            borderColor: "white",
+            "&:hover": { borderColor: "white" },
+            textTransform: "none",
+          }}
+        >
           Invite
         </Button>
         <AvatarGroup
           max={7}
           sx={{
+            gap: "10px",
             "& .MuiAvatar-root": {
               width: 34,
               height: 34,
               fontSize: "16px",
+              border: "none",
             },
             "& .MuiAvatarGroup-avatar": {
-              border: "2px solid white",
               boxShadow: "0 1px 3px rgba(0,0,0,0.2)",
             },
           }}

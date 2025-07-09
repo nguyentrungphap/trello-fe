@@ -1,15 +1,9 @@
-import {
-  Box,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  useColorScheme,
-} from "@mui/material";
+import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import type { SelectChangeEvent } from "@mui/material";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import SettingsBrightnessIcon from "@mui/icons-material/SettingsBrightness";
+import { useColorScheme } from "@mui/material/styles";
 
 function ModeSelect() {
   const { mode, setMode } = useColorScheme();
@@ -21,13 +15,38 @@ function ModeSelect() {
   return (
     <Box>
       <FormControl>
-        <InputLabel id="label-select-dark-light-mode">Mode</InputLabel>
+        <InputLabel
+          id="label-select-dark-light-mode"
+          sx={{
+            color: "white",
+            "&.Mui-focused": {
+              color: "white",
+            },
+          }}
+        >
+          Mode
+        </InputLabel>
         <Select
           labelId="label-select-dark-light-mode"
           id="select-dark-light-mode"
           value={mode || "light"}
           label="Mode"
           onChange={handleChange}
+          sx={{
+            color: "white",
+            "& .MuiSelect-icon": {
+              color: "white",
+            },
+            "& .MuiOutlinedInput-notchedOutline": {
+              borderColor: "white",
+            },
+            "&:hover .MuiOutlinedInput-notchedOutline": {
+              borderColor: "white",
+            },
+            "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+              borderColor: "white",
+            },
+          }}
           size="small"
         >
           <MenuItem value="light">
