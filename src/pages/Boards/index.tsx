@@ -1,7 +1,5 @@
 function Boards() {
-  return (
-    <div>Boards</div>
-  )
+  return <div>Boards</div>;
 }
 
-export default Boards
+export default Boards;

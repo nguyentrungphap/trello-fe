@@ -1,11 +1,11 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
 
-import { ThemeProvider, CssBaseline } from '@mui/material';
-import theme from './context/theme';
+import { ThemeProvider, CssBaseline } from "@mui/material";
+import theme from "./context/theme";
 
-const rootElement = document.getElementById('root');
+const rootElement = document.getElementById("root");
 if (!rootElement) {
   throw new Error("Root element with id 'root' not found");
 }
