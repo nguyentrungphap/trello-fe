@@ -31,7 +31,7 @@ function Profiles() {
         >
           <Avatar
             src="https://cdn2.fptshop.com.vn/unsafe/1920x0/filters:format(webp):quality(75)/2023_5_29_638209992395613788_frame-218.png"
-            sx={{ width: 32, height: 32 }}
+            sx={{ width: 34, height: 34 }}
           >
             M
           </Avatar>
