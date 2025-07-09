@@ -1,6 +1,6 @@
-import AppBar from '@/components/AppBar'
-import BoardContent from './BoardContent'
-import BoardBar from './BoardBar'
+import AppBar from "@/components/AppBar";
+import BoardContent from "./BoardContent";
+import BoardBar from "./BoardBar";
 
 function Board() {
   return (
@@ -9,7 +9,7 @@ function Board() {
       <BoardBar />
       <BoardContent />
     </>
-  )
+  );
 }
 
-export default Board
+export default Board;
