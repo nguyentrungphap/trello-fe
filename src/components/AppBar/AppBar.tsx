@@ -9,7 +9,7 @@ import {
   Typography,
   useColorScheme,
 } from "@mui/material";
-import ModeSelect from "../ModeSelect";
+import ModeSelect from "../ModeSelect/ModeSelect";
 import AppsIcon from "@mui/icons-material/Apps";
 import TrelloLogo from "../../assets/logo.svg?react";
 import { SvgIcon } from "@mui/material";

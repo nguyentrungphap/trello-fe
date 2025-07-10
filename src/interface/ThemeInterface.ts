@@ -6,6 +6,8 @@ declare module "@mui/material/styles" {
       appBarHeight: string;
       boardBarHeight: string;
       boardContentHeight: string;
+      columnHeaderHeight?: string;
+      columnFooterHeight?: string;
     };
   }
   interface ThemeOptions {
@@ -13,6 +15,8 @@ declare module "@mui/material/styles" {
       appBarHeight?: string;
       boardBarHeight?: string;
       boardContentHeight?: string;
+      columnHeaderHeight?: string;
+      columnFooterHeight?: string;
     };
   }
 }

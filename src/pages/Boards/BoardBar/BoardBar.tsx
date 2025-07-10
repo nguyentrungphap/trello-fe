@@ -42,7 +42,6 @@ function BoardBar() {
         justifyContent: "space-between",
         gap: 2,
         overflow: "auto",
-        borderBottom: "1px solid white",
         paddingX: 2,
         bgcolor: () => (mode === "dark" ? "#34495e" : "#1976d2"),
       }}
