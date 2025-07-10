@@ -42,7 +42,6 @@ function BoardBar() {
         justifyContent: "space-between",
         gap: 2,
         overflow: "auto",
-        borderBottom: "1px solid white",
         paddingX: 2,
         bgcolor: () => (mode === "dark" ? "#34495e" : "#1976d2"),
       }}
@@ -101,6 +100,9 @@ function BoardBar() {
               height: 34,
               fontSize: "16px",
               border: "none",
+              color: "white",
+              cursor: "pointer",
+              "&:first-of-type": { backgroundColor: "#a4b0be" },
             },
             "& .MuiAvatarGroup-avatar": {
               boxShadow: "0 1px 3px rgba(0,0,0,0.2)",
