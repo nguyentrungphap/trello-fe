@@ -101,6 +101,9 @@ function BoardBar() {
               height: 34,
               fontSize: "16px",
               border: "none",
+              color: "white",
+              cursor: "pointer",
+              "&:first-of-type": { backgroundColor: "#a4b0be" },
             },
             "& .MuiAvatarGroup-avatar": {
               boxShadow: "0 1px 3px rgba(0,0,0,0.2)",
