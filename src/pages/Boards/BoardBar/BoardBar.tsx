@@ -14,6 +14,8 @@ import AddToDriveIcon from "@mui/icons-material/AddToDrive";
 import BoltIcon from "@mui/icons-material/Bolt";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import type { BoardInterface } from "@/interface/boardInterface";
+import { capitalizeFirstLetter } from "@/utils/formatters";
 
 const MENU_STYLE = {
   color: "white",
@@ -29,9 +31,13 @@ const MENU_STYLE = {
   },
 };
 
-function BoardBar() {
-  const { mode } = useColorScheme();
+interface Props {
+  board: BoardInterface;
+}
 
+function BoardBar(props: Props) {
+  const { board } = props;
+  const { mode } = useColorScheme();
   return (
     <Box
       sx={{
@@ -49,13 +55,13 @@ function BoardBar() {
       <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
         <Chip
           icon={<DashboardIcon />}
-          label="Trello"
+          label={board?.title}
           clickable
           sx={MENU_STYLE}
         />
         <Chip
           icon={<VpnLockIcon />}
-          label="Public/Private Workspace"
+          label={capitalizeFirstLetter(board?.type)}
           clickable
           sx={MENU_STYLE}
         />

@@ -1,8 +1,13 @@
 import { Box, Button } from "@mui/material";
 import Column from "./Column/Column";
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
+import type { BoardInterface } from "@/interface/boardInterface";
 
-function ListColumns() {
+interface BoardContentProps {
+  board: BoardInterface;
+}
+function ListColumns(props: BoardContentProps) {
+  const { board } = props;
   return (
     <Box
       sx={{
@@ -15,13 +20,11 @@ function ListColumns() {
         "&::-webkit-scrollbar-track": { m: 2 },
       }}
     >
-      <Column />
-      <Column />
-      <Column />
-      <Column />
-      <Column />
-      <Column />
-      <Column />
+      {board?.columns.map((columns) => {
+        return (
+          <Column key={columns._id} column={columns} boardId={board._id} />
+        );
+      })}
       {/* Add more columns as needed */}
       <Box
         sx={{

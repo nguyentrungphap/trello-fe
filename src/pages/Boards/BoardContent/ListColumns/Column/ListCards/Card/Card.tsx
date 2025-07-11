@@ -6,13 +6,16 @@ import CommentIcon from "@mui/icons-material/Comment";
 import AttachmentIcon from "@mui/icons-material/Attachment";
 import { Button, Typography } from "@mui/material";
 import { Card as MuiCard } from "@mui/material";
-
+import type { BoardCardInterface } from "@/interface/boardInterface";
 interface CardProps {
   temporaryHideMedia?: boolean;
+  card: BoardCardInterface;
+  columnId: string;
 }
 
 function Card(props: CardProps) {
-  const { temporaryHideMedia } = props;
+  const { temporaryHideMedia, card, columnId } = props;
+  console.log({ card, columnId });
   if (temporaryHideMedia) {
     return (
       <MuiCard
@@ -38,21 +41,21 @@ function Card(props: CardProps) {
     >
       <CardMedia
         sx={{ height: 140 }}
-        image="https://cdn.pixabay.com/photo/2015/11/16/14/43/cat-1045782_960_720.jpg"
+        image={card.cover!}
         title="green iguana"
       />
       <CardContent sx={{ p: 1.5, "&:last-child": { pb: 1.5 } }}>
-        <Typography>Phap dep trai</Typography>
+        <Typography>{card.title}</Typography>
       </CardContent>
       <CardActions sx={{ p: "0 4px 8px 4px" }}>
         <Button size="small" startIcon={<GroupIcon />}>
-          20
+          {Array.isArray(card.memberIds) ? card.memberIds.length : 0}
         </Button>
         <Button size="small" startIcon={<CommentIcon />}>
-          15
+          {Array.isArray(card.comments) ? card.comments.length : 0}
         </Button>
         <Button size="small" startIcon={<AttachmentIcon />}>
-          10
+          {Array.isArray(card.attachments) ? card.attachments.length : 0}
         </Button>
       </CardActions>
     </MuiCard>

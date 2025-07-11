@@ -1,7 +1,14 @@
 import { Box, useColorScheme } from "@mui/material";
 import ListColumns from "./ListColumns/ListColumns";
-function BoardContent() {
+import type { BoardInterface } from "@/interface/boardInterface";
+
+interface BoardContentProps {
+  board: BoardInterface;
+}
+
+function BoardContent(props: BoardContentProps) {
   const { mode } = useColorScheme();
+  const { board } = props;
   return (
     <Box
       sx={{
@@ -11,7 +18,7 @@ function BoardContent() {
         p: "10px 0",
       }}
     >
-      <ListColumns />
+      <ListColumns board={board} />
     </Box>
   );
 }

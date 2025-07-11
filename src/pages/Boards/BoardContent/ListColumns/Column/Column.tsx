@@ -15,7 +15,15 @@ import AddCardIcon from "@mui/icons-material/AddCard";
 import DragHandleIcon from "@mui/icons-material/DragHandle";
 import { Box, Tooltip, Typography, useColorScheme } from "@mui/material";
 import ListCards from "./ListCards/ListCards";
-function Column() {
+import type { BoardColumnInterface } from "@/interface/boardInterface";
+
+interface ColumnProps {
+  column: BoardColumnInterface;
+  boardId: string;
+}
+
+function Column(props: ColumnProps) {
+  const { column, boardId } = props;
   const { mode } = useColorScheme();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -25,6 +33,7 @@ function Column() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  console.log(boardId);
   return (
     <Box
       sx={{
@@ -54,6 +63,7 @@ function Column() {
             fontSize: "1rem",
             fontWeight: "bold",
             cursor: "pointer",
+            color: mode === "dark" ? "#ffffff" : "#000000",
           }}
         >
           Column Title
@@ -125,7 +135,7 @@ function Column() {
         </Box>
       </Box>
       {/* Box Column Content */}
-      <ListCards />
+      <ListCards column={column} />
       {/* Box Column Footer */}
       <Box
         sx={{
