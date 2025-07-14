@@ -47,7 +47,6 @@ function Column(props: ColumnProps) {
           `calc(${theme.trello.boardContentHeight} - ${theme.spacing(5)})`,
       }}
     >
-      {/* Box Column Header */}
       <Box
         sx={{
           height: (theme) => theme.trello.columnHeaderHeight,
@@ -66,7 +65,7 @@ function Column(props: ColumnProps) {
             color: mode === "dark" ? "#ffffff" : "#000000",
           }}
         >
-          Column Title
+          {column.title}
         </Typography>
         <Box>
           <Tooltip title="More options">
@@ -134,9 +133,7 @@ function Column(props: ColumnProps) {
           </Menu>
         </Box>
       </Box>
-      {/* Box Column Content */}
-      <ListCards column={column} />
-      {/* Box Column Footer */}
+      <ListCards cards={column.cards} />
       <Box
         sx={{
           height: (theme) => theme.trello.columnFooterHeight,
