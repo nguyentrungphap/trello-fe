@@ -1,10 +1,22 @@
-import type { BoardColumnInterface } from "@/interface/boardInterface";
+// export const mapOrder = (
+//   originalArray: BoardColumnInterface[],
+//   orderArray: string[],
+//   key: keyof BoardColumnInterface
+// ): BoardColumnInterface[] => {
+//   if (!originalArray || !orderArray || !key) return [];
 
-export const mapOrder = (
-  originalArray: BoardColumnInterface[],
+//   return [...originalArray].sort(
+//     (a, b) =>
+//       orderArray.indexOf(a[key] as string) -
+//       orderArray.indexOf(b[key] as string)
+//   );
+// };
+
+export const mapOrder = <T>(
+  originalArray: T[],
   orderArray: string[],
-  key: keyof BoardColumnInterface
-): BoardColumnInterface[] => {
+  key: keyof T
+): T[] => {
   if (!originalArray || !orderArray || !key) return [];
 
   return [...originalArray].sort(

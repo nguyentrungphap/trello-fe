@@ -1,4 +1,4 @@
-import type { BoardInterface } from "@/interface/boardInterface";
+import type { BoardInterface } from "~/interface/boardInterface";
 
 export interface MockDataInterface {
   board: BoardInterface;

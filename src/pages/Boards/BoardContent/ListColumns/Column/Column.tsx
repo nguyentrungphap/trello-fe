@@ -15,27 +15,47 @@ import AddCardIcon from "@mui/icons-material/AddCard";
 import DragHandleIcon from "@mui/icons-material/DragHandle";
 import { Box, Tooltip, Typography, useColorScheme } from "@mui/material";
 import ListCards from "./ListCards/ListCards";
-import type { BoardColumnInterface } from "@/interface/boardInterface";
+import type { BoardColumnInterface } from "~/interface/boardInterface";
+
+import { mapOrder } from "~/utils/sort";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 interface ColumnProps {
   column: BoardColumnInterface;
-  boardId: string;
 }
 
 function Column(props: ColumnProps) {
-  const { column, boardId } = props;
+  const { column } = props;
   const { mode } = useColorScheme();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({
+      id: column._id,
+      data: { ...column },
+    });
+
+  const dndKitColumnStyles = {
+    // touchAction: "none",
+    transform: CSS.Translate.toString(transform),
+    transition,
+  };
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
-  console.log(boardId);
+  const orderredCards = mapOrder(column.cards, column.cardOrderIds, "_id");
   return (
     <Box
+      ref={setNodeRef}
+      style={dndKitColumnStyles}
+      {...attributes}
+      {...listeners}
       sx={{
         minWidth: "300px",
         maxWidth: "300px",
@@ -133,7 +153,7 @@ function Column(props: ColumnProps) {
           </Menu>
         </Box>
       </Box>
-      <ListCards cards={column.cards} />
+      <ListCards cards={orderredCards} />
       <Box
         sx={{
           height: (theme) => theme.trello.columnFooterHeight,

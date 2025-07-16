@@ -1,53 +1,61 @@
 import { Box, Button } from "@mui/material";
 import Column from "./Column/Column";
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
-import type { BoardColumnInterface } from "@/interface/boardInterface";
+import type { BoardColumnInterface } from "~/interface/boardInterface";
+import {
+  SortableContext,
+  horizontalListSortingStrategy,
+} from "@dnd-kit/sortable";
 
 interface BoardContentProps {
-  boardId: string;
   columns: BoardColumnInterface[];
 }
 function ListColumns(props: BoardContentProps) {
-  const { boardId, columns } = props;
+  const { columns } = props;
   return (
-    <Box
-      sx={{
-        bgcolor: "inherit",
-        width: "100%",
-        height: "100%",
-        display: "flex",
-        overflowX: "auto",
-        overflowY: "hidden",
-        "&::-webkit-scrollbar-track": { m: 2 },
-      }}
+    <SortableContext
+      items={columns.map((item) => item._id)}
+      strategy={horizontalListSortingStrategy}
     >
-      {columns.map((column) => {
-        return <Column key={column._id} column={column} boardId={boardId} />;
-      })}
       <Box
         sx={{
-          minWidth: "200px",
-          maxWidth: "200px",
-          mx: 2,
-          borderRadius: "6px",
-          height: "fit-content",
-          bgcolor: "#ffffff3d",
+          bgcolor: "inherit",
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          overflowX: "auto",
+          overflowY: "hidden",
+          "&::-webkit-scrollbar-track": { m: 2 },
         }}
       >
-        <Button
-          startIcon={<NoteAddIcon />}
+        {columns.map((column) => {
+          return <Column key={column._id} column={column} />;
+        })}
+        <Box
           sx={{
-            color: "white",
-            width: "100%",
-            justifyContent: "flex-start",
-            pl: 2.5,
-            py: 1,
+            minWidth: "200px",
+            maxWidth: "200px",
+            mx: 2,
+            borderRadius: "6px",
+            height: "fit-content",
+            bgcolor: "#ffffff3d",
           }}
         >
-          Add a card
-        </Button>
+          <Button
+            startIcon={<NoteAddIcon />}
+            sx={{
+              color: "white",
+              width: "100%",
+              justifyContent: "flex-start",
+              pl: 2.5,
+              py: 1,
+            }}
+          >
+            Add a card
+          </Button>
+        </Box>
       </Box>
-    </Box>
+    </SortableContext>
   );
 }
 

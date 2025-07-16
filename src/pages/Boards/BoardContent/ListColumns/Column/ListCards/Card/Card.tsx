@@ -6,7 +6,7 @@ import CommentIcon from "@mui/icons-material/Comment";
 import AttachmentIcon from "@mui/icons-material/Attachment";
 import { Button, Typography } from "@mui/material";
 import { Card as MuiCard } from "@mui/material";
-import type { BoardCardInterface } from "@/interface/boardInterface";
+import type { BoardCardInterface } from "~/interface/boardInterface";
 interface CardProps {
   card: BoardCardInterface;
 }

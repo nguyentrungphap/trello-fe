@@ -7,15 +7,15 @@ import {
   Tooltip,
   useColorScheme,
 } from "@mui/material";
-import theme from "@/context/theme";
+import theme from "~/context/theme";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import VpnLockIcon from "@mui/icons-material/VpnLock";
 import AddToDriveIcon from "@mui/icons-material/AddToDrive";
 import BoltIcon from "@mui/icons-material/Bolt";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import type { BoardInterface } from "@/interface/boardInterface";
-import { capitalizeFirstLetter } from "@/utils/formatters";
+import type { BoardInterface } from "~/interface/boardInterface";
+import { capitalizeFirstLetter } from "~/utils/formatters";
 
 const MENU_STYLE = {
   color: "white",

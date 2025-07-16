@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import Card from "./Card/Card";
 
-import type { BoardCardInterface } from "@/interface/boardInterface";
+import type { BoardCardInterface } from "~/interface/boardInterface";
 
 interface ListCardsProps {
   cards: BoardCardInterface[];
@@ -34,7 +34,6 @@ function ListCards(props: ListCardsProps) {
       {cards.map((card) => (
         <Card key={card._id} card={card} />
       ))}
-      {/* Add more cards as needed */}
     </Box>
   );
 }

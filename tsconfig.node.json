@@ -21,6 +21,6 @@
   "include": ["vite.config.ts", "src", "src/**/*.tsx", "src/**/*.ts"],
   "baseUrl": ".",
   "paths": {
-    "@/*": ["src/*"]
+    "~/*": ["src/*"]
   }
 }
