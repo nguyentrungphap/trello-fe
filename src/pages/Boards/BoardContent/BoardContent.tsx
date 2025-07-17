@@ -16,13 +16,18 @@ import {
   // PointerSensor,
   MouseSensor,
   TouchSensor,
+  type UniqueIdentifier,
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
-
 interface BoardContentProps {
   board: BoardInterface;
 }
+
+const ACTIVE_DRAG_ITEM_TYPE = {
+  COLUMN: "ACTIVE_DRAG_ITEM_TYPE_COLUMN",
+  CARD: "ACTIVE_DRAG_ITEM_TYPE_CARD",
+};
 
 function BoardContent(props: BoardContentProps) {
   const { mode } = useColorScheme();
@@ -30,6 +35,12 @@ function BoardContent(props: BoardContentProps) {
   const [orderedColumns, setOrderedColumns] = useState<BoardColumnInterface[]>(
     []
   );
+  const [activeDragItemId, setActiveDragItemId] =
+    useState<UniqueIdentifier | null>(null);
+  const [activeDragItemType, setActiveDragItemType] = useState<string | null>(
+    null
+  );
+  const [activeDragItemData, setActiveDragItemData] = useState<unknown>(null);
 
   // const pointerSensor = useSensor(PointerSensor, {
   //   activationConstraint: { distance: 4 },
@@ -50,6 +61,19 @@ function BoardContent(props: BoardContentProps) {
     setOrderedColumns(mapOrder(board.columns, board.columnOrderIds, "_id"));
   }, [board]);
 
+  const handleDragStart = (e: DragEndEvent) => {
+    console.log("handleDragEnd", e);
+    setActiveDragItemId(e.active?.id || null);
+    setActiveDragItemType(
+      e.active?.data?.current?.columnId
+        ? ACTIVE_DRAG_ITEM_TYPE.CARD
+        : ACTIVE_DRAG_ITEM_TYPE.COLUMN
+    );
+    setActiveDragItemData(e.active?.data?.current);
+    console.log(activeDragItemId);
+    console.log(activeDragItemData);
+    console.log(activeDragItemType);
+  };
   const handleDragEnd = (e: DragEndEvent) => {
     // console.log("handleDragEnd", e);
     const { active, over } = e;
@@ -66,7 +90,11 @@ function BoardContent(props: BoardContentProps) {
   };
 
   return (
-    <DndContext onDragEnd={handleDragEnd} sensors={sensors}>
+    <DndContext
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+      sensors={sensors}
+    >
       <Box
         sx={{
           width: "100%",
