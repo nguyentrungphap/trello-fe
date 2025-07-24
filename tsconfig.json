@@ -7,7 +7,9 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
-    }
+      "~/*": ["src/*"]
+    },
+    "target": "es2023",
+    "lib": ["dom", "es2023"]
   }
 }
