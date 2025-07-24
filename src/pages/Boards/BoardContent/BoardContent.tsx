@@ -9,7 +9,7 @@ import type {
 
 import { mapOrder } from "~/utils/sort";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { cloneDeep } from "lodash";
 import { arrayMove } from "@dnd-kit/sortable";
 import {
@@ -24,10 +24,19 @@ import {
   DragOverlay,
   defaultDropAnimationSideEffects,
   closestCorners,
+  pointerWithin,
+  rectIntersection,
+  getFirstCollision,
+  type CollisionDetection,
+  type Active,
+  type ClientRect,
+  type Collision,
 } from "@dnd-kit/core";
 
 import Column from "./ListColumns/Column/Column";
 import Card from "./ListColumns/Column/ListCards/Card/Card";
+import type { DroppableContainer, RectMap } from "@dnd-kit/core/dist/store";
+import type { Coordinates } from "@dnd-kit/core/dist/types";
 
 interface BoardContentProps {
   board: BoardInterface;
@@ -50,9 +59,12 @@ function BoardContent(props: BoardContentProps) {
     null
   );
   const [activeDragItemData, setActiveDragItemData] = useState<unknown>(null);
-  const [oldColumnWhenDraggingCard, setOldColumnWhenDraggingCard] =
-    useState<unknown>(null);
+  const [oldColumnWhenDraggingCard, setOldColumnWhenDraggingCard] = useState<
+    BoardColumnInterface | null | undefined
+  >(null);
 
+  // diem va cham cuoi cung  truoc do
+  const lastOverId = useRef<Collision | null>(null);
   useEffect(() => {
     setOrderedColumns(mapOrder(board.columns, board.columnOrderIds, "_id"));
   }, [board]);
@@ -64,7 +76,6 @@ function BoardContent(props: BoardContentProps) {
   };
 
   const handleDragStart = (e: DragEndEvent) => {
-    // console.log("handleDragStart", e);
     setActiveDragItemId(e.active?.id || null);
     setActiveDragItemType(
       e.active?.data?.current?.columnId
@@ -79,7 +90,6 @@ function BoardContent(props: BoardContentProps) {
   // xu ly khi keo card
   const handleDragOver = (e: DragEndEvent) => {
     if (activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.COLUMN) return;
-    console.log("handleDragOver", e);
 
     const { active, over } = e;
     // dam bao neu khong ton tai active hoac over thi se ko lam j tre tranh lam cash trang web
@@ -91,9 +101,8 @@ function BoardContent(props: BoardContentProps) {
     } = active;
     const {
       id: overCardId,
-      data: { current: overCardData },
+      // data: { current: overCardData },
     } = over;
-
     const activeColumn = findColumnByCardId(activeDraggingCardId as string);
     const overColumn = findColumnByCardId(overCardId as string);
 
@@ -109,14 +118,14 @@ function BoardContent(props: BoardContentProps) {
 
         //tinh toan cards index moi de biet minh dang nam tren hay duoi 1  phan tu trong column
         // chua hieu code duoi
-        let newCardIndex: number;
+        // let newCardIndex: number;
         const isBelowOverItem =
           active.rect.current.translated &&
           active.rect.current.translated.top > over.rect.top + over.rect.height;
 
         const modifier = isBelowOverItem ? 1 : 0;
         // ------------------------------------------------------------
-        newCardIndex =
+        const newCardIndex =
           overCartIndex >= 0
             ? overCartIndex + modifier
             : overColumn?.cards?.length + 1;
@@ -150,7 +159,7 @@ function BoardContent(props: BoardContentProps) {
           nextOverColumn.cards = nextOverColumn.cards.toSpliced(
             newCardIndex,
             0,
-            activeDraggingCardData
+            activeDraggingCardData as BoardCardInterface
           );
           //cap nhat lai cardOrderIds
           nextOverColumn.cardOrderIds = nextOverColumn.cards.map(
@@ -164,7 +173,6 @@ function BoardContent(props: BoardContentProps) {
   const handleDragEnd = (e: DragEndEvent) => {
     const { active, over } = e;
     if (!active || !over) return;
-    // console.log("handleDragEnd", e);
 
     ///xu ly keo tha card
     if (activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.CARD) {
@@ -174,7 +182,7 @@ function BoardContent(props: BoardContentProps) {
       } = active;
       const {
         id: overCardId,
-        data: { current: overCardData },
+        // data: { current: overCardData },
       } = over;
 
       const activeColumn = findColumnByCardId(activeDraggingCardId as string);
@@ -182,7 +190,7 @@ function BoardContent(props: BoardContentProps) {
 
       if (!activeColumn || !overColumn) return;
 
-      if (oldColumnWhenDraggingCard._id !== overColumn._id) {
+      if (oldColumnWhenDraggingCard?._id !== overColumn._id) {
         setOrderedColumns((prevColumns) => {
           //find vi tri index cua overcard trong column dich den (active card sap duoc tha)
           const overCartIndex = overColumn?.cards?.findIndex(
@@ -191,7 +199,7 @@ function BoardContent(props: BoardContentProps) {
 
           //tinh toan cards index moi de biet minh dang nam tren hay duoi 1  phan tu trong column
           // chua hieu code duoi
-          let newCardIndex: number;
+          // let newCardIndex: number;
           const isBelowOverItem =
             active.rect.current.translated &&
             active.rect.current.translated.top >
@@ -199,7 +207,7 @@ function BoardContent(props: BoardContentProps) {
 
           const modifier = isBelowOverItem ? 1 : 0;
           // ------------------------------------------------------------
-          newCardIndex =
+          const newCardIndex =
             overCartIndex >= 0
               ? overCartIndex + modifier
               : overColumn?.cards?.length + 1;
@@ -232,7 +240,7 @@ function BoardContent(props: BoardContentProps) {
 
             //cap nhat lai du lieu trong columnId trong card
             const rebuild_activeDraggingCardData = {
-              ...activeDraggingCardData,
+              ...(activeDraggingCardData as BoardCardInterface),
               columnId: nextOverColumn._id,
             };
 
@@ -250,9 +258,7 @@ function BoardContent(props: BoardContentProps) {
           }
           return nextColumns;
         });
-        console.log("hanh dong keo tha card trong 2 column");
       } else {
-        console.log("hanh dong keo tha card trong 1 column");
         const oldCardIndex = oldColumnWhenDraggingCard?.cards?.findIndex(
           (c) => c._id === activeDragItemId
         );
@@ -271,7 +277,7 @@ function BoardContent(props: BoardContentProps) {
           //find column dang tha
           const targetColumn = nextColumns.find(
             (column) => column._id === overColumn._id
-          );
+          ) as BoardColumnInterface;
 
           //cap nhat lau card va cardOrderIds
           targetColumn.cards = dndOrderedCards;
@@ -332,12 +338,50 @@ function BoardContent(props: BoardContentProps) {
     }),
   };
 
+  // args = arguments = Cac doi so , tham so
+  const collisionDetectionStrategy: CollisionDetection = useCallback(
+    (args: {
+      active: Active;
+      collisionRect: ClientRect;
+      droppableRects: RectMap;
+      droppableContainers: DroppableContainer[];
+      pointerCoordinates: Coordinates | null;
+    }): Collision[] => {
+      if (activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.COLUMN) {
+        return closestCorners({ ...args });
+      }
+
+      const pointerIntersections = pointerWithin(args);
+      const intersections = pointerIntersections?.length
+        ? pointerIntersections
+        : rectIntersection(args);
+
+      const overId = getFirstCollision(intersections);
+
+      if (overId) {
+        lastOverId.current = overId;
+        return [
+          {
+            id: overId.id,
+          },
+        ];
+      }
+
+      return lastOverId.current ? [{ id: lastOverId.current.id }] : [];
+    },
+    [activeDragItemType]
+  );
+
   return (
     <DndContext
       onDragStart={handleDragStart}
       onDragOver={handleDragOver}
       onDragEnd={handleDragEnd}
-      collisionDetection={closestCorners}
+      //dung thang closestCorners se bi bug flickering + sai lech du lieu
+      // collisionDetection={closestCorners}
+
+      //custom thuat toan va cham
+      collisionDetection={collisionDetectionStrategy}
       sensors={sensors}
     >
       <Box
